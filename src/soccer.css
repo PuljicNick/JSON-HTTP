@@ -1,0 +1,57 @@
+Text {
+    -fx-font-size: 40;
+    -fx-font-family: 'Frijole';
+    -fx-text-alignment: center;
+    -fx-fill: white;
+}
+
+BorderPane {
+    -fx-background-color: linear-gradient(darkblue,blue);
+}
+
+
+ProgressIndicator {
+    -fx-progress-color: deepskyblue;
+    -fx-max-height: 80;
+}
+
+HBox {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+VBox {
+    -fx-alignment: center;
+    -fx-spacing: 3;
+}
+
+GridPane {
+    -fx-background-color: yellow;
+    -fx-hgap: 1;
+    -fx-vgap: 1;
+    -fx-padding: 1;
+    -fx-spacing: 5;
+}
+
+GridPane HBox {
+    -fx-background-color: black;
+    -fx-padding: 3 8 3 8;
+}
+
+Label {
+    -fx-font-size: 16;
+    -fx-text-fill: whitesmoke;
+}
+
+ChoiceBox {
+    -fx-cursor: hand;
+}
+
+ChoiceBox Label {
+    -fx-text-fill: black;
+}
+
+ScrollPane {
+    -fx-fit-to-width: true;
+    -fx-fit-to-height: true;
+}

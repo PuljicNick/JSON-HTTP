@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,6 +34,7 @@ public class GeoipApp extends Application {
     private TextField ipfield;
     private GridPane geoGrid;
     private ProgressIndicator progressIndicator;
+    private MediaPlayer sound;
 
 
     @Override
@@ -58,6 +61,7 @@ public class GeoipApp extends Application {
         ipfield = new TextField();
         search = new Button();
         progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
+        sound = new MediaPlayer(new Media(GeoipApp.class.getResource("ding.mp3").toString()));
 
         search.setText("Search");
 
@@ -93,6 +97,8 @@ public class GeoipApp extends Application {
 
                 if ( response != null ){
                     try {
+                        sound.stop();
+                        sound.play();
                         JSONObject jo = new JSONObject(response);
                         System.out.println(jo.names());
                         IPLabel.setText(jo.getString("ip") + "");
@@ -103,7 +109,11 @@ public class GeoipApp extends Application {
                         } else {
                             cityLabel.setText("City not found");
                         }
-                        ISPLabel.setText(jo.getString("isp") + "");
+                        if (jo.has("isp")) {
+                            ISPLabel.setText(jo.getString("isp") + "");
+                        } else {
+                            ISPLabel.setText("ISP not found");
+                        }
                         countryLabel.setText(jo.getString("country")+"");
 
                         root.setCenter(new HBox(geoGrid));
@@ -115,7 +125,11 @@ public class GeoipApp extends Application {
                     } catch (JSONException e) {
                         IPLabel.setText("Data Error");
                     }
-                } else titleText.setText("Connection\nError");
+                } else {
+                    sound.stop();
+                    sound.play();
+                    titleText.setText("Connection\nError");
+                }
             }
         });
     }

@@ -1,20 +1,16 @@
 Text {
     -fx-font-size: 60;
     -fx-text-alignment: center;
-    -fx-fill: white;
-}
-
-BorderPane {
-    -fx-background-color: linear-gradient(darkred,red);
-}
-
-StackPane Text {
-    -fx-font-size: 120;
+    -fx-font-family: 'Capitals';
     -fx-fill: black;
 }
 
+BorderPane {
+    -fx-background-color: linear-gradient(lightblue,navy);
+}
+
 ProgressIndicator {
-    -fx-progress-color: red;
+    -fx-progress-color: lightseagreen;
     -fx-max-height: 80;
 }
 
@@ -23,25 +19,12 @@ HBox {
     -fx-spacing: 10;
 }
 
-VBox {
-    -fx-alignment: center;
-    -fx-spacing: 3;
-}
-
 GridPane {
-    -fx-hgap: 10;
+    -fx-hgap: 5;
     -fx-vgap: 5;
 }
 
 Label {
     -fx-font-size: 16;
-    -fx-text-fill: whitesmoke;
-}
-
-ChoiceBox {
-    -fx-cursor: hand;
-}
-
-ChoiceBox Label {
-    -fx-text-fill: black;
+    -fx-text-fill: darkorange;
 }

@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -33,14 +34,16 @@ public class GeoipApp extends Application {
     public void start(Stage primaryStage) {
         stage = primaryStage;
         root = new BorderPane();
-        scene = new Scene(root, 500, 550); //width and height of application
+        scene = new Scene(root, 500, 250); //width and height of application
         stage.setScene(scene);
         stage.setTitle("GEO IP");  //text for the title bar of the window
         stage.setResizable(false);
         scene.getStylesheets().add("geoip.css");
 
+        Font.loadFont("Capitals-Regular.ttf", 10);
+
         //initialization:
-        titleText = new Text("GEO IP");
+        titleText = new Text("Your GEO IP");
         cityLabel = new Label();
         countryLabel = new Label();
         latitudeLabel = new Label();
@@ -71,7 +74,7 @@ public class GeoipApp extends Application {
     }
 
     private void getGeoIP() {
-        //root.setCenter(progressIndicator);
+        root.setCenter(progressIndicator);
 
         HttpRequestTask.get("http://www.telize.com/geoip", new HttpResponseHandler() {
             @Override
@@ -81,9 +84,13 @@ public class GeoipApp extends Application {
                 if ( response != null ){
                     try {
                         JSONObject jo = new JSONObject(response);
-                        JSONObject main = jo.getJSONObject("main");
-                        System.out.println(main.names());
-                        IPLabel.setText(main.getDouble("ip") + "");
+                        System.out.println(jo.names());
+                        IPLabel.setText(jo.getString("ip") + "");
+                        latitudeLabel.setText(jo.getDouble("latitude") + "");
+                        longitudeLabel.setText(jo.getDouble("longitude") + "");
+                        cityLabel.setText(jo.getString("city") + "");
+                        ISPLabel.setText(jo.getString("isp") + "");
+                        countryLabel.setText(jo.getString("country")+"");
 
                         root.setCenter(new HBox(geoGrid));
 

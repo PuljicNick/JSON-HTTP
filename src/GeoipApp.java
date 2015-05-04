@@ -59,7 +59,9 @@ public class GeoipApp extends Application {
         search = new Button();
         progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
 
-        //geoGrid.addRow(0, new Label("Enter IP:"), ipfield, search);
+        search.setText("Search");
+
+        geoGrid.addRow(0, new Label("Enter IP:"), ipfield, search);
         geoGrid.addRow(1, new Label("Your IP:"), IPLabel);
         geoGrid.addRow(2, new Label("Your Country:"), countryLabel);
         geoGrid.addRow(4, new Label("Your Latitude"), latitudeLabel);
@@ -74,16 +76,17 @@ public class GeoipApp extends Application {
         root.setTop(new HBox(titleText));
         root.setCenter(new HBox(geoGrid));
 
-        getGeoIP();
+        search.setOnAction(event -> getGeoIP());
 
+        getGeoIP();
 
         stage.show();
     }
 
     private void getGeoIP() {
         root.setCenter(progressIndicator);
-
-        HttpRequestTask.get("http://www.telize.com/geoip/", new HttpResponseHandler() {
+        String newip = ipfield.getText();
+        HttpRequestTask.get("http://www.telize.com/geoip/" + newip, new HttpResponseHandler() {
             @Override
             public void handle(String response) {
                 System.out.println(response);
@@ -95,7 +98,11 @@ public class GeoipApp extends Application {
                         IPLabel.setText(jo.getString("ip") + "");
                         latitudeLabel.setText(jo.getDouble("latitude") + "");
                         longitudeLabel.setText(jo.getDouble("longitude") + "");
-                        cityLabel.setText(jo.getString("city") + "");
+                        if (jo.has("city")) {
+                            cityLabel.setText(jo.getString("city") + "");
+                        } else {
+                            cityLabel.setText("City not found");
+                        }
                         ISPLabel.setText(jo.getString("isp") + "");
                         countryLabel.setText(jo.getString("country")+"");
 

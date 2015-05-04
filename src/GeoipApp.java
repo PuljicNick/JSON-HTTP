@@ -4,8 +4,10 @@ import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -26,6 +28,8 @@ public class GeoipApp extends Application {
     private Scene scene;
     private Label cityLabel, countryLabel, latitudeLabel, longitudeLabel, ISPLabel, IPLabel;
     private Text titleText;
+    private Button search;
+    private TextField ipfield;
     private GridPane geoGrid;
     private ProgressIndicator progressIndicator;
 
@@ -34,7 +38,7 @@ public class GeoipApp extends Application {
     public void start(Stage primaryStage) {
         stage = primaryStage;
         root = new BorderPane();
-        scene = new Scene(root, 500, 250); //width and height of application
+        scene = new Scene(root, 500, 350); //width and height of application
         stage.setScene(scene);
         stage.setTitle("GEO IP");  //text for the title bar of the window
         stage.setResizable(false);
@@ -51,14 +55,17 @@ public class GeoipApp extends Application {
         ISPLabel = new Label();
         geoGrid = new GridPane();
         IPLabel = new Label();
+        ipfield = new TextField();
+        search = new Button();
         progressIndicator = new ProgressIndicator(ProgressIndicator.INDETERMINATE_PROGRESS);
 
-        geoGrid.addRow(0, new Label("Your IP:"), IPLabel);
-        geoGrid.addRow(1, new Label("Your Country:"), countryLabel);
-        geoGrid.addRow(3, new Label("Your Latitude"), latitudeLabel);
-        geoGrid.addRow(4, new Label("Your Longitude:"), longitudeLabel);
-        geoGrid.addRow(2, new Label("Your City:"), cityLabel);
-        geoGrid.addRow(5, new Label("Your ISP:"), ISPLabel);
+        //geoGrid.addRow(0, new Label("Enter IP:"), ipfield, search);
+        geoGrid.addRow(1, new Label("Your IP:"), IPLabel);
+        geoGrid.addRow(2, new Label("Your Country:"), countryLabel);
+        geoGrid.addRow(4, new Label("Your Latitude"), latitudeLabel);
+        geoGrid.addRow(5, new Label("Your Longitude:"), longitudeLabel);
+        geoGrid.addRow(3, new Label("Your City:"), cityLabel);
+        geoGrid.addRow(6, new Label("Your ISP:"), ISPLabel);
 
         ColumnConstraints cc = new ColumnConstraints();
         cc.setHalignment(HPos.RIGHT);
@@ -76,7 +83,7 @@ public class GeoipApp extends Application {
     private void getGeoIP() {
         root.setCenter(progressIndicator);
 
-        HttpRequestTask.get("http://www.telize.com/geoip", new HttpResponseHandler() {
+        HttpRequestTask.get("http://www.telize.com/geoip/", new HttpResponseHandler() {
             @Override
             public void handle(String response) {
                 System.out.println(response);
